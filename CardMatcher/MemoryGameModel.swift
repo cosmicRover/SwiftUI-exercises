@@ -18,7 +18,7 @@ struct MemoryGameModel<CardContent>{/* a made uptype for card game, must set typ
         for index in 0..<pairsOfCards{
             let content = cardContentFactory(index)
             cards.append(Card(isFaceUp: false, isMatched: false, content: content, id: index))
-            cards.append(Card(isFaceUp: false, isMatched: false, content: content, id: index*2 + 1))
+            cards.append(Card(isFaceUp: false, isMatched: false, content: content, id: index*2 + 1)) // TODO: fix problem with duplicate id
         }
     }
     
@@ -30,9 +30,21 @@ struct MemoryGameModel<CardContent>{/* a made uptype for card game, must set typ
         var id: Int
     }
     
-    func chooseCard(playerCard card: Card){
-        print("hello from choose card: \(card)")
+    /* Since cards conform to the Identifiable protocol, we can identify it using the ID*/
+    func index(of card: Card) -> Int{
+        for index in 0..<self.cards.count{
+            if cards[index].id == card.id{
+                return index
+            }
+        }
+        return 0 // TODO: fix default return value
     }
     
-    
+    /* All functions that mutates a self, needs to be labeled as mutating */
+    mutating func chooseCard(playerCard card: Card){
+        print("hello from choose card: \(card)")
+        let cardIndex = self.index(of: card)
+        
+        self.cards[cardIndex].isFaceUp = !self.cards[cardIndex].isFaceUp
+    }
 }

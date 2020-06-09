@@ -8,10 +8,13 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct EmojiGameView: View {
     
-    /* view model is being initialized in SceneDelegate() */
-    var viewModel: EmojiMemoryGameViewModel
+    /* view model is being initialized in SceneDelegate()
+     "@ObservedObject" indicates that this var as an ObservableObject in it's corresponding
+     ViewModel, and it must react to the changes. It only gets diff.modified.
+     */
+    @ObservedObject var viewModel: EmojiMemoryGameViewModel
     
     var body: some View {
         
@@ -45,7 +48,7 @@ struct CardView: View {
             }else{
                 RoundedRectangle(cornerRadius: 20.0).fill(Color.orange)
             }
-        }).frame(width: UIScreen.main.bounds.size.width/3, height: UIScreen.main.bounds.size.width/3, alignment: .leading)
+        })
     }
 }
 
@@ -83,6 +86,6 @@ struct CardView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: EmojiMemoryGameViewModel())
+        EmojiGameView(viewModel: EmojiMemoryGameViewModel())
     }
 }

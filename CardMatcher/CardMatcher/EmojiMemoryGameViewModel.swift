@@ -8,9 +8,15 @@
 
 import Foundation
 
-class EmojiMemoryGameViewModel{
-    /* init the model with type instance for the cards using the built-in init for cards.*/
-    private var memoryGameModel: MemoryGameModel<String> = EmojiMemoryGameViewModel._initMemoryGameModel()
+/* In order for the changes to be reactive, the view model must conform to ObservableObject. Only works for classes.
+ It leads to inhereting objectsWillChange.send() aka the change notifier
+ */
+class EmojiMemoryGameViewModel: ObservableObject{
+    /* init the model with type instance for the cards using the built-in init for cards.
+     Each time a "@Published" property gets changed, it calles the ObservableObject property
+     objectsWillChange.send()
+     */
+    @Published private var memoryGameModel: MemoryGameModel<String> = EmojiMemoryGameViewModel._initMemoryGameModel()
     
     
     static func _initMemoryGameModel() -> MemoryGameModel<String>{
